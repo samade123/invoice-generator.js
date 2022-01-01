@@ -5,32 +5,47 @@ const credentials = require('./credentials.js');
 const readline = require('readline').createInterface({
     input: process.stdin,
     output: process.stdout
-  })
+})
 
 const dbURI = `mongodb+srv://${credentials.username}:${credentials.password}@cluster0.91q38.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(console.log("connected"))
-    .catch(err => console.log(err));
+function connect() {
 
-
-function add(contact) {
-    const contact = new Contact({
-        fullName: 'Samuel',
-        address: '2 Edenbridge Close',
-        postcode: 'BR5 3SL'
+    return new Promise((resolve, reject) => {
+        mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+            .then(() => {
+                console.log("connected");
+                resolve();
+            })
+            .catch(err => {
+                console.log(err);
+                reject(err);
+            });
     })
+}
 
-    contact.save()
-        .then(result => {
-            console.log("succesfully saved: ", result)
+function disconnect() {
+    mongoose.disconnect();
+}
+
+
+function add(address) {
+    connect()
+        .then(() => {
+
+            const contact = new Contact(address)
+
+            contact.save()
+                .then(result => {
+                    console.log("succesfully saved: ", result)
+                    disconnect();
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+
         })
-        .catch(err => {
-            console.log(err);
-        });
 }
 
-function startConsole(params) {
-    
-}
+module.exports.add = add
 

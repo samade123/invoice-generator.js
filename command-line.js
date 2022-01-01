@@ -5,6 +5,7 @@
 'use strict';
 const inquirer = require('inquirer');
 const {updateInvoiceDetails} = require('./invoice.js');
+const {add} = require('./mongo.js');
 
 
 var data = {
@@ -125,6 +126,8 @@ function itemQuestions() {
         console.log(data)
 
         updateInvoiceDetails(data)
+        add(data.fromAddress);
+        add(data.toAddress);
 
         
     });
