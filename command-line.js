@@ -4,6 +4,8 @@
 
 'use strict';
 const inquirer = require('inquirer');
+const {updateInvoiceDetails} = require('./invoice.js');
+
 
 var data = {
     fromAddress: {},
@@ -110,7 +112,7 @@ function itemQuestions() {
             name: 'currency',
             message: "in what currency?",
             default() {
-                return 'GBP';
+                return 'gbp';
             },
         },
     ];
@@ -121,6 +123,8 @@ function itemQuestions() {
         data.items[0] = answers;
 
         console.log(data)
+
+        updateInvoiceDetails(data)
 
         
     });

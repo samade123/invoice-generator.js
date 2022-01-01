@@ -1,5 +1,6 @@
 var https   = require("https");
 var fs      = require("fs");
+const { update } = require("lodash");
 
 function generateInvoice(invoice, filename, success, error) {
     var postData = JSON.stringify(invoice);
@@ -42,7 +43,7 @@ var invoice = {
     to: "Johnny Appleseed",
     currency: "usd",
     number: "INV-0001",
-    payment_terms: "Auto-Billed - Do Not Pay",
+    payment_terms: "",
     items: [
         {
             name: "Subscription to Starter",
@@ -53,13 +54,32 @@ var invoice = {
     fields: {
         tax: "%"
     },
-    tax: 5,
-    notes: "Thanks for being an awesome customer!",
-    terms: "No need to submit payment. You will be auto-billed for this invoice."
+    tax: 0,
+    notes: " ",
+    terms: " "
 };
 
-generateInvoice(invoice, 'invoice.pdf', function() {
-    console.log("Saved invoice to invoice.pdf");
-}, function(error) {
-    console.error(error);
-});
+// generateInvoice(invoice, 'invoice.pdf', function() {
+//     console.log("Saved invoice to invoice.pdf");
+// }, function(error) {
+//     console.error(error);
+// });
+
+ function updateInvoiceDetails(data) {
+    invoice.from =  data.fromAddress.fullName + " " + data.fromAddress.address + ", "  + data.fromAddress.postcode;
+    invoice.to =  data.toAddress.fullName + " " + data.toAddress.address + ", "  + data.toAddress.postcode;
+    invoice.currency = data.items[0].currency;
+    invoice.items[0].name = data.items[0].item;
+    invoice.items[0].unit_cost = data.items[0].price;
+
+    console.log(data, invoice)
+
+    generateInvoice(invoice, 'invoice.pdf', function() {
+        console.log("Saved invoice to invoice.pdf");
+    }, function(error) {
+        console.error(error);
+    });
+
+}
+
+module.exports.updateInvoiceDetails = updateInvoiceDetails
