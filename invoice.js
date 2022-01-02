@@ -38,7 +38,7 @@ function generateInvoice(invoice, filename, success, error) {
 }
 
 var invoice = {
-    logo: "https://link.eu1.storjshare.io/jxiirq72exwb52yewni3z3gguraa/demo-bucket%2Fbitmoji.png",
+    logo: "https://gateway.eu1.storjshare.io/demo-bucket/bitmoji.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=julpkkq7ropwqym2zdcy37q2vq2a%2F20220102%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220102T221143Z&X-Amz-Expires=900&X-Amz-Signature=b94408d4c730ca7763ae31e1c9af6ac60bf7f329b77b5d4ff2909581a2a89c36&X-Amz-SignedHeaders=host",
     from: "Invoiced\n701 Brazos St\nAustin, TX 78748",
     to: "Johnny Appleseed",
     currency: "usd",
